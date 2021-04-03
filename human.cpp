@@ -64,8 +64,8 @@ void info(human man)//输出一个人的信息
 void info_all()//输出所有信息
 {
   cout << "WorldTime: " << world_time << endl;
-  cout << "Now there are " << humans.size() << " living humans\n"
-       << "They are: ";
+  cout << "Now there are " << humans.size() << " humans\n"
+       << "Living humans are: ";
   for (decltype(humans.size()) index = 0; index != humans.size(); index++)
     {
       if (humans[index].alive)
@@ -86,7 +86,7 @@ void rand_born()//随机出生
   int temp = rand() % 2;
   man.sex = humansex(temp);
   man.old = 0;
-  man.money = rand() % 9501 + 500;
+  man.money = rand() % 95001 + 5000;
   man.alive = true;
   man.level = rand() % 10 + 1;
 
@@ -137,7 +137,7 @@ void born()//手动出生
   info(man);
   humans.push_back(man);
 }
-
+//杀死
 human kill(human man)
 {
   man.alive = false;
@@ -146,7 +146,7 @@ human kill(human man)
 //战力
 double powerof(human man)
 {
-  double power = man.level + man.money / 5000 + man.old / 5;
+  double power = man.level + man.money / 10000 + man.old / 5;
   return power;
 }
 //比较
@@ -178,7 +178,7 @@ human rand_fight(decltype(humans.size()) ina)
   if (compare(a,b))
     {
       cout << " winned!\n";
-      if (a.level <= 10)
+      if (a.level < 10)
         a.level++;
       a.money += b.money / 10;
     } else {
@@ -187,6 +187,33 @@ human rand_fight(decltype(humans.size()) ina)
     }
   return a;
 }
+//New time
+void year()
+{
+  for (auto &p : humans)
+    {
+      if (p.alive)
+        {
+          p.old++;
+
+          int delta_money = rand() % (20000 * p.level / 2) + 5000 * p.level / 2;
+          p.money += delta_money;
+          delta_money = rand() % (12000 * p.level / 2) + 8000 * p.level / 2;
+          p.money -= delta_money;
+
+          int chance = rand() % 6 + 1;
+          if (chance == 2)
+            {
+              cout << "This year " << p.name << " had a good luck!" << endl;
+              p.money += (10000 * p.level / 2);
+              if (p.level < 10)
+                p.level ++;
+            }
+
+        }
+    }
+}
+
 
 int main()
 {
@@ -197,12 +224,13 @@ int main()
 
   char mode;
 
-  //  humans.push_back(zzx);
-  humans.push_back(god);
+  //humans.push_back(zzx);
+  //humans.push_back(god);
 
   do
     {
       world_time++;
+      year();
       info_all();
       cin.clear();
 
