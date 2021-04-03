@@ -16,5 +16,4 @@ Then type `./[file]`.
 
 ##### For example:
 >g++ human.cpp -o test
-
->./test
+./test
