@@ -1,5 +1,5 @@
 //Hello.cpp | A test program
-//By_QQ_9696293 At 2020.4.25
+//At 2020.4.25
 #include <iostream>
 #include <cmath>
 using namespace std;

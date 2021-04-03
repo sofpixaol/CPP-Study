@@ -1,4 +1,4 @@
-//human.cpp
+//tom.cpp
 #include <iostream>
 #include <string>
 #include <unistd.h>//For usleep

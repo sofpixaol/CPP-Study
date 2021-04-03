@@ -20,11 +20,10 @@ struct human
   int money;
   bool alive;
   unsigned level;
-  bool r;
 };
 
 //humans
-const human god
+human god
 {
     "god",
     man,
@@ -32,7 +31,6 @@ const human god
     999999,
     1,
     10,
-    false
 };
 human zzx
 {
@@ -42,10 +40,8 @@ human zzx
     300000,
     1,
     10,
-    true
 };
-human humans[5] = {zzx,god,god,god,god};
-decltype(sizeof(humans)) human_num = 1;
+vector<human> humans;
 
 //functions
 void info(human man)//输出一个人的信息
@@ -68,93 +64,130 @@ void info(human man)//输出一个人的信息
 void info_all()//输出所有信息
 {
   cout << "WorldTime: " << world_time << endl;
-  cout << "Now there are " << human_num << " humans.\n"
+  cout << "Now there are " << humans.size() << " living humans\n"
        << "They are: ";
-  for (auto &pr : humans)
+  for (decltype(humans.size()) index = 0; index != humans.size(); index++)
     {
-      if (pr.r)
-        cout << pr.name << " ";
+      if (humans[index].alive)
+        cout << index << "."<<  humans[index].name << " ";
     }
   cout << endl;
 }
 void rand_born()//随机出生
 {
-  if (human_num != sizeof(humans))
-    {
-      //rand
-      unsigned seed;
-      seed = time(0);
-      srand(seed);
+  //rand
+  unsigned seed;
+  seed = time(0);
+  srand(seed);
 
-      human man;
-      cin.get();
-      man.name = "unfinded";
-      int temp = rand() % 2;
-      man.sex = humansex(temp);
-      man.old = 0;
-      man.money = rand() % 9500 + 500;
-      man.alive = true;
-      man.level = rand() % 9 + 1;
-      man.r = true;
+  human man;
+  cin.get();
+  man.name = "unfinded";
+  int temp = rand() % 2;
+  man.sex = humansex(temp);
+  man.old = 0;
+  man.money = rand() % 9501 + 500;
+  man.alive = true;
+  man.level = rand() % 10 + 1;
 
-      info(man);
+  info(man);
 
-      cout << "Enter it's name: ";
-      getline(cin, man.name);
+  cout << "Enter it's name: ";
+  getline(cin, man.name);
 
-      system("clear");  // For Linux
-      //system("cls);  // For Windows
-      info(man);
-      humans[human_num] = man;
-      human_num++;
-    } else {
-    cout << "Humans_num is full!\n";
-  }
+  system("clear");  // For Linux
+  //system("cls);  // For Windows
+  info(man);
+  humans.push_back(man);
 }
 
 void born()//手动出生
 {
-  if (human_num != sizeof(humans))
+  human man;
+
+  cin.get();
+  cout << "\nEnter it's name(string): ";
+  getline(cin, man.name);
+
+  int temp_sex;
+  cout << "\nEnter it's sex(0-man,1-woman): ";
+  cin >> temp_sex;
+  man.sex = humansex(temp_sex);
+
+  cout << "\nEnter it's old(int): ";
+  cin >> man.old;
+
+  cout << "\nEnter it's money(unsiged): ";
+  cin >> man.money;
+
+  man.alive = true;
+
+  cin.clear();
+  cout << "\nEnter it's level(1-10): ";
+  unsigned temp_level;
+  while (cin >> temp_level)
     {
-      human man;
-
-      cin.get();
-      cout << "\nEnter it's name(string): ";
-      getline(cin, man.name);
-
-      int temp_sex;
-      cout << "\nEnter it's sex(0-man,1-woman): ";
-      cin >> temp_sex;
-      man.sex = humansex(temp_sex);
-
-      cout << "\nEnter it's old(int): ";
-      cin >> man.old;
-
-      cout << "\nEnter it's money(unsiged): ";
-      cin >> man.money;
-
-      man.alive = true;
-
-      cin.clear();
-      cout << "\nEnter it's level(1-10): ";
-      unsigned temp_level;
-      while (cin >> temp_level)
-        {
-          if (temp_level <= 10 && temp_level >= 1)
-            man.level = temp_level;
-          else
-            cout << "Please enter a number from 1 to 10!\n";
-        }
-      man.r = true;
-      system("clear");  // For Linux
-      //system("cls);  // For Windows
-      info(man);
-      humans[human_num] = man;
-      human_num++;
-    } else {
-  cout << "Humans_num is full!\n" << endl;
-  }
+      if (temp_level <= 10 && temp_level >= 1)
+        man.level = temp_level;
+      else
+        cout << "Please enter a number from 1 to 10!\n";
+    }
+  system("clear");  // For Linux
+  //system("cls);  // For Windows
+  info(man);
+  humans.push_back(man);
 }
+
+human kill(human man)
+{
+  man.alive = false;
+  return man;
+}
+//战力
+double powerof(human man)
+{
+  double power = man.level + man.money / 5000 + man.old / 5;
+  return power;
+}
+//比较
+bool compare(human a, human b)
+{
+  double pa = powerof(a);
+  double pb = powerof(b);
+  bool result = pa > pb;
+  return result;
+}
+//战斗
+human rand_fight(decltype(humans.size()) ina)
+{
+  //rand
+  unsigned seed;
+  seed = time(0);
+  srand(seed);
+
+  human a = humans[ina];
+  decltype(humans.size()) inb = rand() % humans.size();
+  while(ina == inb)
+    {
+      inb = rand() % humans.size();
+    }
+  human b = humans[inb];
+
+  cout << a.name << "had a fight with " << b.name << " ...\n";
+  cout << a.name;
+  if (compare(a,b))
+    {
+      cout << " winned!\n";
+      if (a.level <= 10)
+        a.level++;
+      a.money += b.money / 10;
+    } else {
+      cout << " lost!\n";
+      a.alive = false;
+    }
+  return a;
+}
+
 int main()
 {
   //rand
@@ -162,27 +195,58 @@ int main()
   seed = time(0);
   srand(seed);
 
-  while(true)
+  char mode;
+
+  //  humans.push_back(zzx);
+  humans.push_back(god);
+
+  do
     {
       world_time++;
       info_all();
-      int mode;
       cin.clear();
-      cin >> mode;
-      if (mode == 1)
-        rand_born();
-      if (mode == 2)
-        born();
-      if (mode == 3)
-        for (auto &pr : humans)
-  	  {
-            if (pr.r)
-              info(pr);
-	  }
-      if (mode == 4)
-        break;
+
+      while(true)
+        {
+          cin.clear();
+          cout << "Select mode:" << endl;
+          cin >> mode;
+
+          if (mode == 'a')
+            {
+              info_all();
+              for (auto &pr : humans)
+                {
+                  info(pr);
+                  cout << endl;
+                }
+            }
+          if (mode == 'r')
+            {
+              rand_born();
+            }
+          if (mode == 'n')
+            {
+              born();
+            }
+          if (mode == 'f')
+            {
+              if (humans.size() >= 2)
+                {
+                  decltype(humans.size()) index;
+                  cout << "Enter the fighter's number:\n";
+                  cin >> index;
+                  humans[index] = rand_fight(index);
+                } else {
+                  cout << "There are not enough humans!\n";
+                }
+            }
+          if (mode == 'm' | mode == 'e')
+            break;
+        }
       system("clear"); //For Linux
       //system("cls); //For Windows
     }
+  while (mode == 'm');
   return 0;
 }
