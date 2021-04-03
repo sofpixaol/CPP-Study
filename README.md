@@ -15,6 +15,7 @@ Make sure you have g++ compiler, type `g++ [filename] -o [file]` in the terminal
 Then type `./[file]`.
 
 ##### For example:
->g++ human.cpp -o test
-
->./test
+```shell
+g++ human.cpp -o test
+./test
+```
