@@ -28,7 +28,7 @@ human god
     "god",
     man,
     137,
-    999999,
+    9999999,
     1,
     10,
 };
@@ -167,13 +167,13 @@ human rand_fight(decltype(humans.size()) ina)
 
   human a = humans[ina];
   decltype(humans.size()) inb = rand() % humans.size();
-  while(ina == inb)
+  while(ina == inb | humans[inb].alive == false)//防止打自己或死人
     {
       inb = rand() % humans.size();
     }
   human b = humans[inb];
 
-  cout << a.name << "had a fight with " << b.name << " ...\n";
+  cout << a.name << " had a fight with " << b.name << " ...\n";
   cout << a.name;
   if (compare(a,b))
     {
@@ -187,7 +187,7 @@ human rand_fight(decltype(humans.size()) ina)
     }
   return a;
 }
-//New time
+//New year
 void year()
 {
   for (auto &p : humans)
@@ -261,6 +261,7 @@ int main()
             {
               if (humans.size() >= 2)
                 {
+                  info_all();
                   decltype(humans.size()) index;
                   cout << "Enter the fighter's number:\n";
                   cin >> index;
