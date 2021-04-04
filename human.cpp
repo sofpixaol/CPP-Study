@@ -63,8 +63,12 @@ void info(human man)//输出一个人的信息
 }
 void info_all()//输出所有信息
 {
+  int livings = 0;
+  for (auto pr : humans)
+    if (pr.alive)
+      livings += 1;
   cout << "WorldTime: " << world_time << endl;
-  cout << "Now there are " << humans.size() << " humans\n"
+  cout << "Now there are " << humans.size() << " humans, " << livings << " living humans." << endl
        << "Living humans are: ";
   for (decltype(humans.size()) index = 0; index != humans.size(); index++)
     {
@@ -88,7 +92,7 @@ void rand_born()//随机出生
   man.old = 0;
   man.money = rand() % 95001 + 5000;
   man.alive = true;
-  man.level = rand() % 10 + 1;
+  man.level = rand() % 6 + 1;
 
   info(man);
 
@@ -138,10 +142,11 @@ void born()//手动出生
   humans.push_back(man);
 }
 //杀死
-human kill(human man)
+void kill(decltype(humans.size()) index)
 {
-  man.alive = false;
-  return man;
+  auto iter = humans.begin() + index;
+  humans.erase(iter);
+  info_all();
 }
 //战力
 double powerof(human man)
@@ -269,6 +274,14 @@ int main()
                 } else {
                   cout << "There are not enough humans!\n";
                 }
+            }
+          if (mode == 'k')
+            {
+              info_all();
+              decltype(humans.size()) index;
+              cout << "Enter the number of human who you want to kill\n";
+              cin >> index;
+              kill(index);
             }
           if (mode == 'm' | mode == 'e')
             break;
