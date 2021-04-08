@@ -17,7 +17,7 @@ struct human
   string name;
   humansex sex;
   unsigned old;
-  int money;
+  double money;
   bool alive;
   unsigned level;
 };
@@ -61,21 +61,25 @@ void info(human man)//输出一个人的信息
        << "Alive: " << man.alive << endl
        << "Level: " << man.level << endl;
 }
-void info_all()//输出所有信息
+int info_all(bool s)//输出所有信息
 {
   int livings = 0;
   for (auto pr : humans)
     if (pr.alive)
       livings += 1;
-  cout << "WorldTime: " << world_time << endl;
-  cout << "Now there are " << humans.size() << " humans, " << livings << " living humans." << endl
-       << "Living humans are: ";
-  for (decltype(humans.size()) index = 0; index != humans.size(); index++)
+  if (s == true)
     {
-      if (humans[index].alive)
-        cout << index << "."<<  humans[index].name << " ";
+      cout << "WorldTime: " << world_time << endl;
+      cout << "Now there are " << humans.size() << " humans, " << livings << " living humans." << endl
+           << "Living humans are: ";
+      for (decltype(humans.size()) index = 0; index != humans.size(); index++)
+        {
+          if (humans[index].alive)
+            cout << index << "."<<  humans[index].name << " ";
+        }
+      cout << endl;
     }
-  cout << endl;
+  return livings;
 }
 void rand_born()//随机出生
 {
@@ -99,8 +103,6 @@ void rand_born()//随机出生
   cout << "Enter it's name: ";
   getline(cin, man.name);
 
-  system("clear");  // For Linux
-  //system("cls);  // For Windows
   info(man);
   humans.push_back(man);
 }
@@ -136,8 +138,7 @@ void born()//手动出生
       else
         cout << "Please enter a number from 1 to 10!\n";
     }
-  system("clear");  // For Linux
-  //system("cls);  // For Windows
+
   info(man);
   humans.push_back(man);
 }
@@ -146,7 +147,7 @@ void kill(decltype(humans.size()) index)
 {
   auto iter = humans.begin() + index;
   humans.erase(iter);
-  info_all();
+  info_all(true);
 }
 //战力
 double powerof(human man)
@@ -163,20 +164,20 @@ bool compare(human a, human b)
   return result;
 }
 //战斗
-human rand_fight(decltype(humans.size()) ina)
+void rand_fight(decltype(humans.size()) ina)
 {
   //rand
   unsigned seed;
   seed = time(0);
   srand(seed);
 
-  human a = humans[ina];
+  human &a = humans[ina];
   decltype(humans.size()) inb = rand() % humans.size();
   while(ina == inb | humans[inb].alive == false)//防止打自己或死人
     {
       inb = rand() % humans.size();
     }
-  human b = humans[inb];
+  human &b = humans[inb];
 
   cout << a.name << " had a fight with " << b.name << " ...\n";
   cout << a.name;
@@ -185,12 +186,15 @@ human rand_fight(decltype(humans.size()) ina)
       cout << " winned!\n";
       if (a.level < 10)
         a.level++;
-      a.money += b.money / 10;
+      a.money += b.money * 7 / 10;
+      b.money = b.money * 3 / 10;
+      b.alive = false;
     } else {
       cout << " lost!\n";
+      b.money += a.money * 7 / 10;
+      a.money = a.money * 3 / 10;
       a.alive = false;
     }
-  return a;
 }
 //New year
 void year()
@@ -201,16 +205,18 @@ void year()
         {
           p.old++;
 
-          int delta_money = rand() % (20000 * p.level / 2) + 5000 * p.level / 2;
+          double dolt = rand() % 100 + 1;
+          int delta_money = rand() % (10000 * p.level / 2) + 5000 * p.level / 2;
           p.money += delta_money;
-          delta_money = rand() % (12000 * p.level / 2) + 8000 * p.level / 2;
+          p.money += dolt / 10;
+          delta_money = rand() % 28000 * p.level / 3 + 2000;
           p.money -= delta_money;
 
-          int chance = rand() % 6 + 1;
+          int chance = rand() % 9 + 1;
           if (chance == 2)
             {
               cout << "This year " << p.name << " had a good luck!" << endl;
-              p.money += (10000 * p.level / 2);
+              p.money += (20000 * p.level / 2);
               if (p.level < 10)
                 p.level ++;
             }
@@ -231,64 +237,70 @@ int main()
 
   //humans.push_back(zzx);
   //humans.push_back(god);
-
   do
     {
       world_time++;
       year();
-      info_all();
-      cin.clear();
+      info_all(true);
 
-      while(true)
+      do
         {
           cin.clear();
-          cout << "Select mode:" << endl;
+          cout << "Select mode: ";
           cin >> mode;
+          cout << endl;
 
-          if (mode == 'a')
+          switch (mode)
             {
-              info_all();
+            case 'a' :
+              info_all(true);
               for (auto &pr : humans)
                 {
                   info(pr);
                   cout << endl;
                 }
-            }
-          if (mode == 'r')
-            {
+              break;
+
+            case 'r' :
               rand_born();
-            }
-          if (mode == 'n')
-            {
+              break;
+
+            case 'n' :
               born();
-            }
-          if (mode == 'f')
-            {
-              if (humans.size() >= 2)
+              break;
+
+            case 'f' :
+              if (info_all(false) >= 2)
                 {
-                  info_all();
+                  info_all(true);
                   decltype(humans.size()) index;
                   cout << "Enter the fighter's number:\n";
                   cin >> index;
-                  humans[index] = rand_fight(index);
+                  rand_fight(index);
                 } else {
-                  cout << "There are not enough humans!\n";
+                cout << "There are not enough humans!\n";
+              }
+              break;
+
+            case 'k' :
+              if (mode == 'k')
+                {
+                  info_all(true);
+                  decltype(humans.size()) index;
+                  cout << "Enter the number of human who you want to kill\n";
+                  cin >> index;
+                  kill(index);
                 }
+              break;
+
+            default :
+              cout << "Unknown mode" << endl;
+              break;
             }
-          if (mode == 'k')
-            {
-              info_all();
-              decltype(humans.size()) index;
-              cout << "Enter the number of human who you want to kill\n";
-              cin >> index;
-              kill(index);
-            }
-          if (mode == 'm' | mode == 'e')
-            break;
-        }
-      system("clear"); //For Linux
-      //system("cls); //For Windows
+        } while (mode != 'm' && mode != 'e');
+
+      cout << endl;
     }
-  while (mode == 'm');
+  while (mode != 'e');
   return 0;
 }
