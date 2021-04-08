@@ -15,23 +15,23 @@ Then type `./[file]`.
 <details>
   <summary>List</summary>
 
-1.hellowrold.cpp
-2.Hello.cpp
-3.1to10.cpp
-4.sum.cpp
-5.j.cpp
-6.var.cpp
-7.ab.cpp
-9.pointer.cpp
-9.const.cpp
-10.math.cpp
-11.string.cpp
-12.getline.cpp
-13.vector.cpp
-14.iterator.cpp
-15.array.cpp
-16.tom.cpp
-17.human.cpp
+1. hellowrold.cpp
+2. Hello.cpp
+3. 1to10.cpp
+4. sum.cpp
+5. j.cpp
+6. var.cpp
+7. ab.cpp
+9. pointer.cpp
+9. const.cpp
+10. math.cpp
+11. string.cpp
+12. getline.cpp
+13. vector.cpp
+14. iterator.cpp
+15. array.cpp
+16. tom.cpp
+17. human.cpp
 
 </details>
 ##### For example:
