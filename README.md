@@ -12,6 +12,13 @@ You can view them. If you want, you can give me some advice, thanks! ฅ۶•ﻌ
 Make sure you have g++ compiler, type `g++ [filename] -o [file]` in the terminal.
 Then type `./[file]`.
 
+##### For example:
+```shell
+g++ human.cpp -o test
+./test
+```
+
+### What is inside?
 <details>
   <summary>List</summary>
 
@@ -34,9 +41,3 @@ Then type `./[file]`.
 17. human.cpp
 
 </details>
-
-##### For example:
-```shell
-g++ human.cpp -o test
-./test
-```
