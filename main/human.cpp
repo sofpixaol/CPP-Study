@@ -208,14 +208,14 @@ void year()
           double dolt = rand() % 100 + 1;
           int delta_money = rand() % (10000 * p.level / 2) + 5000 * p.level / 2;
           p.money += delta_money;
-          p.money += dolt / 10;
-          delta_money = rand() % 28000 * p.level / 3 + 2000;
+          p.money += dolt / 100;
+          delta_money = rand() % 28000 * p.level / 3 + 3000 * p.level / 2;
           p.money -= delta_money;
 
           int chance = rand() % 9 + 1;
           if (chance == 2)
             {
-              cout << "This year " << p.name << " had a good luck!" << endl;
+              cout << "\t\aThis year " << p.name << " had a good luck!" << endl;
               p.money += (20000 * p.level / 2);
               if (p.level < 10)
                 p.level ++;
@@ -293,6 +293,8 @@ int main()
                 }
               break;
 
+            case 'm' :
+            case 'e' : break;
             default :
               cout << "Unknown mode" << endl;
               break;
@@ -302,5 +304,6 @@ int main()
       cout << endl;
     }
   while (mode != 'e');
+  cout << '\a' << endl;
   return 0;
 }
