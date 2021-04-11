@@ -2,7 +2,6 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include <unistd.h>//For usleep
 #include <cstdlib>//For rand
 #include <ctime>//For time
 using namespace std;
@@ -271,7 +270,7 @@ int main()
 
   char choice;
   string keyword;
-  char mode = 's';
+  char mode = 'c';
 
   //humans.push_back(zzx);
   //humans.push_back(god);
@@ -315,9 +314,12 @@ int main()
                     decltype(humans.size()) index;
                     cout << "Enter the fighter's number:\n";
                     cin >> index;
-                    rand_fight(index);
+                    if (index >= 0 && index <= humans.size())
+                      rand_fight(index);
+                    else
+                      cout << "\aWrong index" << endl;
                   } else {
-                  cout << "There are not enough humans!\n";
+                  cout << "\aThere are not enough humans!\n";
                 }
                 break;
 
@@ -326,7 +328,10 @@ int main()
                 decltype(humans.size()) index;
                 cout << "Enter the number of human who you want to kill\n";
                 cin >> index;
-                kill(index);
+                if (index >= 0 && index <= humans.size())
+                  kill(index);
+                else
+                  cout << "\aWrong index" << endl;
                 break;
 
               case 'c' :
@@ -354,7 +359,10 @@ int main()
             if (keyword == "info")
               {
                 cin >> index;
-                info(humans[index]);
+                if (index >= 0 && index <= humans.size())
+                  info(humans[index]);
+                else
+                  cout << "\aWrong index" << endl;
               }
             else if (keyword == "infoall")
               info_all(true);
@@ -365,29 +373,68 @@ int main()
             else if (keyword == "randfight")
               {
                 cin >> index;
-                rand_fight(index);
+                if (index >= 0 && index <= humans.size())
+                  rand_fight(index);
+                else
+                  cout << "\aWrong index" << endl;
               }
             else if (keyword == "kill")
               {
                 cin >> index;
-                kill(index);
+                if (index >= 0 && index <= humans.size())
+                  kill(index);
+                else
+                  cout << "\aWrong index" << endl;
               }
             else if (keyword == "fight")
               {
                 decltype(humans.size()) indexII;
                 cin >> index;
                 cin >> indexII;
-                fight(index,indexII);
+                if ((index >= 0 && index <= humans.size()) && (indexII >=0 && indexII <= humans.size()))
+                  fight(index,indexII);
+                else
+                  cout << "\aWrong index" << endl;
+              }
+            else if (keyword == "set")
+              {
+                char k;
+                cin >> index;
+                cin >> k;
+                cin.clear();
+                if (index >= 0 && index <= humans.size())
+                  {
+                    switch (k)
+                      {
+                        case 'n' :
+                          getline(cin, humans[index].name);
+                          break;
+                        case 's' :
+                          int temp_sex;
+                          cin >> temp_sex;
+                          humans[index].sex = humansex(temp_sex);
+                          break;
+                        case 'o' :
+                          cin  >> humans[index].old;
+                          break;
+                        case 'm' :
+                          cin >> humans[index].money;
+                        case 'a' :
+                          cin >> humans[index].alive;
+                      }
+                  } else {
+                    cout << "\aWrong index" << endl;
+                  }
               }
             else if (keyword == "select")
               mode = 's';
-            else
+            else if (keyword != "exit" && keyword != "next")
               cout << "Unknown command" << endl;
           }
         while (keyword != "exit" && keyword != "next" && keyword != "select");
       cout << endl;
     }
-  while (choice != 'e');
+  while (choice != 'e' && keyword != "exit");
   cout << '\a' << endl;
   return 0;
 }
