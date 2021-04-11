@@ -435,6 +435,6 @@ int main()
       cout << endl;
     }
   while (choice != 'e' && keyword != "exit");
-  cout << '\a' << endl;
+  cout << '\a';
   return 0;
 }
