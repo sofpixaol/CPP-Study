@@ -10,6 +10,7 @@ using namespace std;
 //World Variables
 enum humansex {man,woman};
 int world_time = 0;
+bool debug = true;
 
 //Define human structure
 struct human
@@ -54,6 +55,8 @@ bool compare(const human &a, const human &b);
 void rand_fight(decltype(humans.size()) ina);
 void fight(decltype(humans.size()) ina, decltype(humans.size()) inb);
 void year();
+void read();
+void write();
 
 int main()
 {
@@ -66,8 +69,40 @@ int main()
   string keyword;
   char mode = 'c';
 
+  read();
   //humans.push_back(zzx);
   //humans.push_back(god);
+  if (debug)
+  {
+    world_time = 10;
+    human* temp = new human;
+    temp->name = "Test";
+    temp->sex = man;
+    temp->old = 3;
+    temp->money = 20000;
+    temp->alive = 1;
+    temp->level = 2;
+    humans.push_back(*temp);
+    humans.push_back(zzx);
+    cout << humans.size() << endl;
+    info_all(true);
+    for (auto &pr : humans)
+      {
+        info(pr);
+        cout << endl;
+      }
+    //read();
+    info_all(true);
+    for (auto &pr : humans)
+      {
+        info(pr);
+        cout << endl;
+      }
+    cout << "Done" << endl;
+    cin.get();
+    return 0;
+  }
+
   do
     {
       world_time++;
@@ -220,6 +255,10 @@ int main()
                     cout << "\aWrong index" << endl;
                   }
               }
+            else if (keyword == "read")
+              read();
+            else if (keyword == "write")
+              write();
             else if (keyword == "select")
               mode = 's';
             else if (keyword != "exit" && keyword != "next")
@@ -365,7 +404,7 @@ void rand_fight(decltype(humans.size()) ina)
 
   human &a = humans[ina];
   decltype(humans.size()) inb = rand() % humans.size();
-  while(ina == inb | humans[inb].alive == false)//Except itself and the dead
+  while(ina == inb || humans[inb].alive == false)//Except itself and the dead
     inb = rand() % humans.size();
   human &b = humans[inb];
 
@@ -436,5 +475,65 @@ void year()
                 p.level ++;
             }
         }
+    }
+}
+//Read data
+void read()
+{
+  ifstream fin;
+  string element;
+  humans.clear();
+
+  fin.open("human.dat");
+  getline(fin, element);
+  if (element == "#data for human.cpp")
+    {
+      cout << "\n\t" << element << endl;    //d
+      fin >> world_time;
+      cout << "\n\t" << world_time;    //d
+      fin >> debug;
+      cout << "\n\t" << debug;    //d
+      fin.get();
+      getline(fin, element);
+       while(element == "human")
+       {
+          fin.get();
+          getline(fin, element);
+          cout << "\n\t" << element << endl;    //d
+          cout << "\tread human\n";    //d
+          human* temp = new human;
+           getline(fin, temp->name);
+          int temp_sex;
+           fin >> temp_sex;
+           temp->sex = humansex(temp_sex);
+           fin >> temp->old;
+           fin >> temp->money;
+           fin >> temp->alive;
+           fin >> temp->level;
+           info(*temp);
+          humans.push_back(*temp);
+        }
+    }
+}
+//Write data
+void write()
+{
+  ofstream fout;
+  string element;
+
+  fout.open("human.dat");
+  fout << "#data for human.cpp" << endl;
+  fout << world_time << endl;
+  fout << debug << endl;
+  for (decltype(humans.size()) index = 0; index <= humans.size(); index++)
+    {
+      fout << "human" << endl;
+      human &man = humans[index];
+      fout << man.name << endl;
+      fout << int(man.sex) << endl;
+      fout << man.old << endl;
+      fout << man.money << endl;
+      fout << man.alive << endl;
+      fout << man.level << endl;
     }
 }
