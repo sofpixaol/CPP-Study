@@ -14,8 +14,8 @@ Then type `./[file]`.
 
 ##### For example:
 ```shell
-g++ human.cpp -o test
-./test
+g++ ./main/human.cpp -o ./run/test
+./run/test
 ```
 
 ### What is inside?
