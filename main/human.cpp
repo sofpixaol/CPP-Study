@@ -10,7 +10,7 @@ using namespace std;
 //World Variables
 enum humansex {man,woman};
 int world_time = 0;
-bool debug = true;
+bool debug = false;
 
 //Define human structure
 struct human
@@ -45,18 +45,28 @@ human zzx
 vector<human> humans;
 
 //Functions
-void info(human man);
-int info_all(bool s);
+inline double powerof(const human &man)
+{
+  double power = man.level + man.money / 10000 + man.old / 5;
+  return power;
+}
+inline bool compare(const human &a, const human &b)
+{
+  double pa = powerof(a);
+  double pb = powerof(b);
+  bool result = pa > pb;
+  return result;
+}
+void info(human man = god);
+int info_all(bool s = true);
 void rand_born();
 void born();
-void kill(decltype(humans.size()) index);
-double powerof(const human &man);
-bool compare(const human &a, const human &b);
-void rand_fight(decltype(humans.size()) ina);
+void kill(decltype(humans.size()) index = 0);
+void fight(decltype(humans.size()) ina);
 void fight(decltype(humans.size()) ina, decltype(humans.size()) inb);
 void year();
-void read();
-void write();
+//void read();
+//void write();
 
 int main()
 {
@@ -69,7 +79,7 @@ int main()
   string keyword;
   char mode = 'c';
 
-  read();
+  //read();
   //humans.push_back(zzx);
   //humans.push_back(god);
   if (debug)
@@ -144,7 +154,7 @@ int main()
                     cout << "Enter the fighter's number:\n";
                     cin >> index;
                     if (index >= 0 && index <= humans.size())
-                      rand_fight(index);
+                      fight(index);
                     else
                       cout << "\aWrong index" << endl;
                   } else {
@@ -203,7 +213,7 @@ int main()
               {
                 cin >> index;
                 if (index >= 0 && index <= humans.size())
-                  rand_fight(index);
+                  fight(index);
                 else
                   cout << "\aWrong index" << endl;
               }
@@ -255,10 +265,12 @@ int main()
                     cout << "\aWrong index" << endl;
                   }
               }
+            /*
             else if (keyword == "read")
               read();
             else if (keyword == "write")
               write();
+            */
             else if (keyword == "select")
               mode = 's';
             else if (keyword != "exit" && keyword != "next")
@@ -380,22 +392,8 @@ void kill(decltype(humans.size()) index)
   humans.erase(iter);
   info_all(true);
 }
-//Power
-double powerof(const human &man)
-{
-  double power = man.level + man.money / 10000 + man.old / 5;
-  return power;
-}
-//Compare
-bool compare(const human &a, const human &b)
-{
-  double pa = powerof(a);
-  double pb = powerof(b);
-  bool result = pa > pb;
-  return result;
-}
 //Random fight
-void rand_fight(decltype(humans.size()) ina)
+void fight(decltype(humans.size()) ina)
 {
   //rand
   unsigned seed;
