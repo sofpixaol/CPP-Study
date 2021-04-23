@@ -1,0 +1,4 @@
+/experiment
+*.log
+*.temp
+*.dat/
