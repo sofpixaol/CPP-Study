@@ -26,21 +26,21 @@ struct human
 //Built-in humans
 human god
 {
-    "god",
-    man,
-    137,
-    9999999,
-    1,
-    10,
+  "god",
+  man,
+  137,
+  9999999,
+  1,
+  10,
 };
 human zzx
 {
-    "ZiXing Zhang",
-    woman,
-    13,
-    300000,
-    1,
-    10,
+  "ZiXing Zhang",
+  woman,
+  13,
+  300000,
+  1,
+  10,
 };
 vector<human> humans;
 

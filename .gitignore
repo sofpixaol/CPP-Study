@@ -1,4 +1,5 @@
 exp
 *.log
 *.temp
-*.dat/
+*.dat
+*.exe
