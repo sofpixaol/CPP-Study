@@ -12,9 +12,8 @@ int main()
   Box box2("G");
   box1.add(item1);
   box2.add(item2);
-  box1.show();
-  box2.show();
+  cout << box1 << box2;
   box1 = box1 + box2;
-  box1.show();
+  cout << box1;
   return 0;
 }

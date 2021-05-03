@@ -1,4 +1,5 @@
 exp
+.vscode
 *.log
 *.temp
 *.dat

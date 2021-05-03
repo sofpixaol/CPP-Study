@@ -8,7 +8,7 @@ class Item
  public:
   Item();
   Item(std::string n, std::string d);
-  void show();
+  friend std::ostream& operator<<(std::ostream &os, Item &i);
 };
 class Box
 {
@@ -18,7 +18,7 @@ class Box
   Box();
   Box(std::string n);
   ~Box();
-  void show();
   void add(Item &t);
   Box operator+(Box &b);
+  friend std::ostream& operator<<(std::ostream &os, Box &b);
 };
