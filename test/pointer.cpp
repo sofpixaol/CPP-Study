@@ -1,8 +1,7 @@
 #include <iostream>
 int main()
 {
-  int mode;
-  mode = 3;
+  int mode = 3;
   if(mode == 1)
   {
     int i = 137;
@@ -46,7 +45,7 @@ int main()
               //脑子抽了去打印一个空指针指向的值awa
               << '\n';
   }
-  if(mode = 4)
+  if(mode == 4)
   {
     double obj = 1.37, *pd = &obj;
     void *pv;
