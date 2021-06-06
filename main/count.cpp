@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <algorithm> // For sort()
+#include <cmath> // For pow()
 using namespace std;
 
 typedef vector<double> dv; //偷懒awa，定义dv为vector<double>类型
@@ -13,7 +14,8 @@ n median(const dv& d);
 dv mode(const dv& d);
 n anova(const dv& d);
 ostream& operator<<(ostream& os,const dv& d);
-//函数原型，依次为 求和、求中位数、求众数、求方差、输出
+void draw(const dv& d);
+//函数原型，依次为 求和、求中位数、求众数、求方差、输出、绘制直方图
 n max(const dv& d) {
   return d.back();//将数据按从小到大排序后，最后一个数便是最大值
 }
@@ -25,6 +27,9 @@ n avg(const dv& d) {
 }
 //内联函数，依次为 最大值、最小值、平均值
 int main() {
+  cout.setf(ios::fixed, ios::floatfield);
+  cout.precision(4);
+
   while (1) {//不会停的循环
     n x = 0;//用于输入
     data.clear();//输入前先清空数据
@@ -35,8 +40,9 @@ int main() {
     cout << endl << "Raw: ";
     for (const auto&t : data)
       cout << t << " ";
-    //输出原始数据
     cout << endl;
+    draw(data);
+    //输出原始数据及直方图
 
     sort(data.begin(),data.end());
     cout << "Sorted: ";
@@ -92,7 +98,7 @@ ostream& operator<<(ostream& os,const dv& d) {
      << "Sum: " << sum(d) << endl
      << "Avg: " << avg(d) << endl
      << "Min: " << min(d) << " Max: " << max(d) << endl
-     << "Median: " << median(d) <<endl
+     << "Median: " << median(d) << endl
      <<"Mode: ";
   for (const auto&t : mode(d))
     os << t << " ";
@@ -100,3 +106,18 @@ ostream& operator<<(ostream& os,const dv& d) {
      << "Anova: " << anova(d) << endl;
   return os;
 }//用来输出..
+void draw(const dv& d) {
+  int z = median(d);
+  int b = pow(10,(z/50)/10+1);//分组
+  for (in t = 0; t < d.size(); t++) {
+    cout << (t+1) << ": ";
+    if (d[t] >= 0) {
+      for (in i = 0; i <= d[t]; i+=b)
+        cout << "*";
+      cout << " (" << d[t];
+    }
+    else cout << "?";
+    cout << endl;
+  }
+  cout << "(" << b << ")" << endl;
+}//绘制直方图
