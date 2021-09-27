@@ -6,8 +6,8 @@ using namespace std;
 
 typedef vector<double> dv; //偷懒awa，定义dv为vector<double>类型
 typedef double n;//同上偷懒，定义n(number)为double类型
-dv data;//定义一个dv(vector<double>)类型的对象用来储存数据
-typedef decltype(data.size()) in;//依旧偷懒，定义in为和data.size()返回值相同的类型，用于表示下标(index)
+dv arr;//定义一个dv(vector<double>)类型的对象用来储存数据
+typedef decltype(arr.size()) in;//依旧偷懒，定义in为和arr.size()返回值相同的类型，用于表示下标(index)
 
 n sum(const dv& d);
 n median(const dv& d);
@@ -32,21 +32,21 @@ int main() {
 
   while (1) {//不会停的循环
     n x = 0;//用于输入
-    data.clear();//输入前先清空数据
+    arr.clear();//输入前先清空数据
     cin.clear();//清空cin的状态
     while(cin >> x) {
-      data.push_back(x);
-    }//循环输入n值至x并将x添加到data向量末尾
+      arr.push_back(x);
+    }//循环输入n值至x并将x添加到arr向量末尾
     cout << endl << "Raw: ";
-    for (const auto&t : data)
+    for (const auto&t : arr)
       cout << t << " ";
     cout << endl;
-    draw(data);
+    draw(arr);
     //输出原始数据及直方图
 
-    sort(data.begin(),data.end());
+    sort(arr.begin(),arr.end());
     cout << "Sorted: ";
-    cout << data;//输出排序后的数据和其他属性
+    cout << arr;//输出排序后的数据和其他属性
   }
   return 0;
 }
