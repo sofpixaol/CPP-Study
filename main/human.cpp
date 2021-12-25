@@ -153,7 +153,7 @@ int main()
                     decltype(humans.size()) index;
                     cout << "Enter the fighter's number:\n";
                     cin >> index;
-                    if (index >= 0 && index <= humans.size())
+                    if (index >= 0 && index < humans.size())
                       fight(index);
                     else
                       cout << "\aWrong index" << endl;
@@ -167,7 +167,7 @@ int main()
                 decltype(humans.size()) index;
                 cout << "Enter the number of human who you want to kill\n";
                 cin >> index;
-                if (index >= 0 && index <= humans.size())
+                if (index >= 0 && index < humans.size())
                   kill(index);
                 else
                   cout << "\aWrong index" << endl;
@@ -198,7 +198,7 @@ int main()
             if (keyword == "info")
               {
                 cin >> index;
-                if (index >= 0 && index <= humans.size())
+                if (index >= 0 && index < humans.size())
                   info(humans[index]);
                 else
                   cout << "\aWrong index" << endl;
@@ -212,7 +212,7 @@ int main()
             else if (keyword == "randfight")
               {
                 cin >> index;
-                if (index >= 0 && index <= humans.size())
+                if (index >= 0 && index < humans.size())
                   fight(index);
                 else
                   cout << "\aWrong index" << endl;
@@ -220,7 +220,7 @@ int main()
             else if (keyword == "kill")
               {
                 cin >> index;
-                if (index >= 0 && index <= humans.size())
+                if (index >= 0 && index < humans.size())
                   kill(index);
                 else
                   cout << "\aWrong index" << endl;
@@ -230,7 +230,7 @@ int main()
                 decltype(humans.size()) indexII;
                 cin >> index;
                 cin >> indexII;
-                if ((index >= 0 && index <= humans.size()) && (indexII >=0 && indexII <= humans.size()))
+                if ((index >= 0 && index < humans.size()) && (indexII >=0 && indexII <= humans.size()))
                   fight(index,indexII);
                 else
                   cout << "\aWrong index" << endl;
@@ -241,7 +241,7 @@ int main()
                 cin >> index;
                 cin >> k;
                 cin.clear();
-                if (index >= 0 && index <= humans.size())
+                if (index >= 0 && index < humans.size())
                   {
                     switch (k)
                       {
@@ -523,7 +523,7 @@ void write()
   fout << "#data for human.cpp" << endl;
   fout << world_time << endl;
   fout << debug << endl;
-  for (decltype(humans.size()) index = 0; index <= humans.size(); index++)
+  for (decltype(humans.size()) index = 0; index < humans.size(); index++)
     {
       fout << "human" << endl;
       human &man = humans[index];
